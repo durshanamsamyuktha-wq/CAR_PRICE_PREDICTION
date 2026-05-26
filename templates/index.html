@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Price Prediction</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* HEADER */
+
+        .header {
+            background: #081c36;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        .header img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 4px solid white;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .header h1 {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .header h2 {
+            color: #00d4ff;
+            font-size: 24px;
+        }
+
+        /* MAIN SECTION */
+
+        .main {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        /* PROFILE SECTION */
+
+        .profile {
+            flex: 1;
+            min-width: 300px;
+            background: #f3f7fb;
+            padding: 30px;
+            text-align: center;
+            border-right: 2px solid #ddd;
+        }
+
+        .profile img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #1e3c72;
+            margin-bottom: 20px;
+        }
+
+        .profile h3 {
+            color: #1e3c72;
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        .info {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .info p {
+            margin: 15px 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .info span {
+            font-weight: bold;
+            color: #1e3c72;
+        }
+
+        /* FORM SECTION */
+
+        .prediction {
+            flex: 2;
+            min-width: 350px;
+            padding: 40px;
+        }
+
+        .prediction h2 {
+            text-align: center;
+            color: #1e3c72;
+            margin-bottom: 30px;
+            font-size: 34px;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        input,
+        select {
+            padding: 14px;
+            border-radius: 10px;
+            border: 2px solid #ccc;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #1e3c72;
+        }
+
+        button {
+            grid-column: span 2;
+            padding: 15px;
+            background: #1e3c72;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #16325c;
+            transform: scale(1.02);
+        }
+
+        /* POPUP */
+
+        .popup {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            background: white;
+            width: 90%;
+            max-width: 550px;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            animation: popupShow 0.4s ease;
+        }
+
+        @keyframes popupShow {
+            from {
+                transform: scale(0.7);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .popup-content img {
+            width: 100%;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .popup-content h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+        }
+
+        .features {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .features p {
+            margin: 12px 0;
+            font-size: 17px;
+        }
+
+        .price-box {
+            margin-top: 25px;
+            background: #1e3c72;
+            color: white;
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 18px;
+            top: 10px;
+            font-size: 35px;
+            cursor: pointer;
+            color: red;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width: 768px) {
+
+            .main {
+                flex-direction: column;
+            }
+
+            form {
+                grid-template-columns: 1fr;
+            }
+
+            button {
+                grid-column: span 1;
+            }
+
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- HEADER -->
+
+        <div class="header">
+
+            <!-- Institute Logo -->
+            <img src="static/skillunion .jpeg"
+                alt="Institute Logo">
+
+            <h1>YOUR INSTITUTE NAME</h1>
+
+            <h2>Car Price Prediction Project</h2>
+
+        </div>
+
+        <!-- MAIN -->
+
+        <div class="main">
+
+            <!-- PROFILE -->
+
+            <div class="profile">
+
+                <!-- YOUR PHOTO -->
+                <img src="static/my pic.jpeg"
+                    alt="My Photo">
+
+                <h3> Durshanam Samyuktha</h3>
+
+                <div class="info">
+
+                    <p><span>Email :</span> durshanamsamyuktha@@gmail.com</p>
+
+                    <p><span>Phone :</span> +91 9347597314</p>
+
+
+                    <p><span>Project :</span> Car Price Prediction</p>
+
+                </div>
+
+            </div>
+
+            <!-- FORM -->
+
+            <div class="prediction">
+
+                <h2>Predict Car Price</h2>
+
+                <form>
+
+                    <input type="text" placeholder="Car Company" required>
+
+                    <input type="text" placeholder="Car Model" required>
+
+                    <input type="number" placeholder="Manufacture Year" required>
+
+                    <input type="number" placeholder="Kilometers Driven" required>
+
+                    <select required>
+                        <option value="">Fuel Type</option>
+                        <option>Petrol</option>
+                        <option>Diesel</option>
+                        <option>CNG</option>
+                        <option>Electric</option>
+                    </select>
+
+                    <select required>
+                        <option value="">Transmission</option>
+                        <option>Manual</option>
+                        <option>Automatic</option>
+                    </select>
+
+                    <button type="button" onclick="showPopup()">
+                        Predict Price
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- POPUP -->
+
+    <div class="popup" id="popup">
+
+        <div class="popup-content">
+
+            <span class="close-btn" onclick="closePopup()">&times;</span>
+
+            <!-- CAR IMAGE -->
+            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70"
+                alt="Car">
+
+            <h2>BMW X5</h2>
+
+            <div class="features">
+
+                <p><strong>Fuel Type :</strong> Petrol</p>
+
+                <p><strong>Year :</strong> 2022</p>
+
+                <p><strong>KMs Driven :</strong> 25,000 KM</p>
+
+                <p><strong>Transmission :</strong> Automatic</p>
+
+                <p><strong>Color :</strong> Black</p>
+
+                <p><strong>Owner :</strong> First Owner</p>
+
+            </div>
+
+            <div class="price-box">
+
+                Predicted Price : ₹ 18,50,000
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        function showPopup() {
+
+            document.getElementById("popup").style.display = "flex";
+
+        }
+
+        function closePopup() {
+
+            document.getElementById("popup").style.display = "none";
+
+        }
+
+    </script>
+
+</body>
+
+</html>
+
+
+
+
+
