@@ -59,7 +59,7 @@ obj.testing()
 obj.saving_model()
 ▶️ How to Run the Project
 Clone the Repository
-git clone https:https://github.com/Narendra1306/Car_price-prediction
+git clone https:https:https://github.com/durshanamsamyuktha-wq/CAR_PRICE_PREDICTION
 Navigate to Project Directory
 cd car-price-prediction
 Install Required Libraries
@@ -110,4 +110,4 @@ Commit your changes
 Push to the branch
 Open a Pull Request
 👨‍💻 Author
-Developed by Muthireddy Narendra
+Developed by Durshanam Samyuktha
