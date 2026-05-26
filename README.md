@@ -1,6 +1,3 @@
-# CAR_PRICE_PREDICTION
-
-
 🚗 Car Price Prediction using Machine Learning
 A Machine Learning project that predicts car prices based on various car features using Python and Scikit-learn.
 This project includes data preprocessing, model training, testing, logging, and model saving functionalities.
